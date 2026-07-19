@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mariage d'Oussama & Amna</title>
+    <title>Invitation de Mariage - Oussama & Amna</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap');
 
         * {
             box-sizing: border-box;
@@ -20,450 +20,379 @@
             overflow-x: hidden;
         }
 
-        /* Enveloppe d'introduction */
-        .envelope-container {
+        /* --- ÉCRAN DE BIENVENUE : ENVELOPPE --- */
+        #envelope-screen {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
+            width: 100vw;
             height: 100vh;
-            background-color: #f3f0e9;
+            background-color: #f2ede4;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1), opacity 1s ease;
         }
 
-        .envelope {
+        .envelope-container {
             position: relative;
-            width: 100%;
-            max-width: 450px;
-            height: 300px;
-            background-color: #fdfbf7;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
+            width: 380px;
+            height: 580px;
+            background: #fdfbf7;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
             border-radius: 4px;
-        }
-
-        .envelope-flap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 225px solid transparent;
-            border-right: 225px solid transparent;
-            border-top: 150px solid #edeae1;
-            transform-origin: top;
-            transition: transform 0.5s ease;
-            z-index: 2;
-        }
-
-        .wax-seal {
-            position: absolute;
-            width: 70px;
-            height: 70px;
-            background: radial-gradient(circle, #e6c687 0%, #c49a45 100%);
-            border-radius: 50%;
-            z-index: 3;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.3);
+            cursor: pointer;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Great Vibes', cursive;
-            font-size: 28px;
-            color: #ffffff;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-            border: 2px solid #b38833;
-            animation: pulse 2s infinite;
+            border: 1px solid #eae2d5;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.04); }
-            100% { transform: scale(1); }
+        /* Dentelle stylisée en CSS croisée en X */
+        .lace-decor {
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            pointer-events: none;
+            border: 24px double rgba(212, 188, 142, 0.25);
+            transform: rotate(45deg);
+            box-shadow: inset 0 0 20px rgba(224, 209, 181, 0.2);
+        }
+
+        .lace-decor::before {
+            content: '';
+            position: absolute;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border: 2px dashed rgba(212, 188, 142, 0.4);
+        }
+
+        /* Broche centrale en perles avec Initiales */
+        .brooch {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, #fdfbf7 0%, #f4eee1 100%);
+            border-radius: 50%;
+            box-shadow: 0 8px 25px rgba(140, 120, 90, 0.3), 
+                        inset 0 2px 5px rgba(255,255,255,0.8);
+            border: 4px solid #d4bc8e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            transition: transform 0.4s ease;
+        }
+
+        .envelope-container:hover .brooch {
+            transform: scale(1.05);
+        }
+
+        /* Simulation de la couronne de perles */
+        .pearls-ring {
+            position: absolute;
+            width: 124px;
+            height: 124px;
+            border: 6px dotted #e6ded0;
+            border-radius: 50%;
+        }
+
+        .monogram {
+            font-family: 'Great Vibes', cursive;
+            font-size: 52px;
+            color: #4a3b2c;
+            font-weight: normal;
+            letter-spacing: -2px;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+            user-select: none;
         }
 
         .click-hint {
             position: absolute;
-            bottom: -40px;
-            font-size: 12px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #8a8373;
-        }
-
-        /* Contenu Principal */
-        .main-content {
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 1s ease;
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            min-height: 100vh;
-            box-shadow: 0 0 30px rgba(0,0,0,0.02);
-        }
-
-        .active-content {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Section Hero */
-        .hero {
-            padding: 80px 20px 40px 20px;
-            text-align: center;
-            position: relative;
-        }
-
-        .subtitle {
-            font-size: 12px;
+            bottom: 40px;
+            font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 3px;
-            color: #9c927e;
+            color: #a69478;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+
+        /* --- CONTENU PRINCIPAL (INVITATION) --- */
+        #main-content {
+            opacity: 0;
+            visibility: hidden;
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            transition: opacity 1s ease 0.5s;
+        }
+
+        .invitation-card {
+            background-color: #ffffff;
+            padding: 60px 40px;
+            text-align: center;
+            border-radius: 4px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+            border: 1px solid #eae2d5;
+            position: relative;
+            outline: 15px solid #ffffff;
+            outline-offset: -25px;
+        }
+
+        .invitation-card::before {
+            content: "";
+            position: absolute;
+            top: 25px; left: 25px; right: 25px; bottom: 25px;
+            border: 1px solid #d4bc8e;
+            pointer-events: none;
+        }
+
+        .header-decor {
+            font-size: 24px;
+            color: #d4bc8e;
             margin-bottom: 25px;
+        }
+
+        .tradition-text {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #8e8270;
+            margin-bottom: 30px;
         }
 
         .names {
             font-family: 'Great Vibes', cursive;
             font-size: 56px;
-            color: #2c2923;
-            line-height: 1.2;
-            margin-bottom: 20px;
+            color: #2c221e;
+            margin: 25px 0;
+            font-weight: normal;
         }
 
         .ampersand {
             font-family: 'Montserrat', sans-serif;
             font-size: 26px;
-            color: #c49a45;
+            color: #d4bc8e;
             display: block;
             margin: 10px 0;
             font-weight: 300;
         }
 
-        .wedding-date-hero {
-            font-size: 16px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #333;
-            margin-top: 20px;
-            font-weight: 500;
+        .request-honor {
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            line-height: 1.8;
+            color: #5a5044;
+            margin: 30px 0 40px 0;
         }
 
-        /* Compte à rebours */
-        .countdown-container {
-            background-color: #fbfaf7;
-            padding: 30px 20px;
-            text-align: center;
-            border-top: 1px solid #f0ede6;
-            border-bottom: 1px solid #f0ede6;
+        .details-section {
+            border-top: 1px solid #eae2d5;
+            border-bottom: 1px solid #eae2d5;
+            padding: 35px 0;
+            margin: 35px 0;
+        }
+
+        .date {
+            font-size: 18px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: #2c221e;
+            margin-bottom: 10px;
+        }
+
+        .time {
+            font-size: 15px;
+            color: #6e6253;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+        }
+
+        .venue {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2c221e;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .address {
+            font-size: 13.5px;
+            color: #6e6253;
+            line-height: 1.6;
+            margin-top: 8px;
+        }
+
+        /* --- COMPTE À REBOURS --- */
+        .countdown-box {
             margin: 40px 0;
+            background: #fbfaf7;
+            padding: 25px;
+            border-radius: 4px;
+            border: 1px solid #f0eae1;
         }
 
         .countdown-title {
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: #9c927e;
-            margin-bottom: 20px;
-        }
-
-        .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-        }
-
-        .countdown-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .countdown-value {
-            font-size: 28px;
-            font-weight: 300;
-            color: #2c2923;
-        }
-
-        .countdown-label {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #9c927e;
-            margin-top: 5px;
-        }
-
-        /* Message de Bienvenue */
-        .welcome-msg {
-            padding: 20px 40px;
-            text-align: center;
-            font-size: 14px;
-            line-height: 1.8;
-            color: #615c52;
-        }
-
-        .welcome-title {
-            font-family: 'Great Vibes', cursive;
-            font-size: 36px;
-            color: #c49a45;
+            color: #a69478;
             margin-bottom: 15px;
         }
 
-        /* Section Programme (Timeline) */
-        .timeline-section {
-            padding: 60px 30px;
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
         }
 
-        .section-title {
-            text-align: center;
-            font-size: 18px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #2c2923;
-            margin-bottom: 40px;
-            position: relative;
+        .time-segment {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
         }
 
-        .section-title::after {
-            content: "";
-            display: block;
-            width: 40px;
-            height: 1px;
-            background-color: #c49a45;
-            margin: 15px auto 0 auto;
-        }
-
-        .timeline {
-            position: relative;
-            max-width: 100%;
-            margin: 0 auto;
-        }
-
-        .timeline::after {
-            content: '';
-            position: absolute;
-            width: 1px;
-            background-color: #e3ded5;
-            top: 0;
-            bottom: 0;
-            left: 20px;
-        }
-
-        .timeline-item {
-            padding: 10px 40px;
-            position: relative;
-            background-color: inherit;
-            margin-bottom: 25px;
-        }
-
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            left: 15px;
-            background-color: #ffffff;
-            border: 2px solid #c49a45;
-            top: 14px;
-            border-radius: 50%;
-            z-index: 1;
-        }
-
-        .timeline-time {
+        .time-number {
+            font-size: 24px;
             font-weight: 600;
-            color: #c49a45;
-            font-size: 14px;
-            margin-bottom: 4px;
+            color: #2c221e;
+        }
+
+        .time-label {
+            font-size: 10px;
+            text-transform: uppercase;
             letter-spacing: 1px;
+            color: #8e8270;
+            margin-top: 5px;
         }
 
-        .timeline-title {
-            font-size: 15px;
-            font-weight: 500;
-            color: #2c2923;
-            margin-bottom: 4px;
-        }
-
-        .timeline-desc {
+        .footer-text {
             font-size: 13px;
-            color: #736c5e;
-            line-height: 1.5;
-        }
-
-        /* Lieu & Carte */
-        .venue-section {
-            padding: 40px 30px 80px 30px;
-            text-align: center;
-            background-color: #fbfaf7;
-        }
-
-        .venue-name {
-            font-size: 16px;
-            font-weight: 600;
-            text-transform: uppercase;
+            font-style: italic;
+            color: #8e8270;
+            margin-top: 40px;
             letter-spacing: 1px;
-            color: #2c2923;
-            margin-bottom: 10px;
         }
 
-        .venue-address {
-            font-size: 14px;
-            color: #615c52;
-            line-height: 1.6;
-            margin-bottom: 30px;
+        /* Classe déclenchée par le JS pour animer l'enveloppe */
+        .open-envelope {
+            transform: translateY(-100vh);
+            opacity: 0;
+            pointer-events: none;
         }
 
-        /* Footer */
-        .footer {
-            padding: 40px 20px;
-            text-align: center;
-            background-color: #ffffff;
-            border-top: 1px solid #f0ede6;
-            font-size: 12px;
-            color: #9c927e;
-            letter-spacing: 1px;
+        .show-content {
+            opacity: 1 !important;
+            visibility: visible !important;
         }
     </style>
 </head>
 <body>
 
-    <!-- Écran d'introduction : Enveloppe -->
-    <div class="envelope-container" id="envelopeContainer">
-        <div class="envelope" onclick="openEnvelope()">
-            <div class="envelope-flap"></div>
-            <div class="wax-seal">O&A</div>
+    <!-- ÉCRAN DE L'ENVELOPPE (STYLE DENTELLE ET BROCHE PERLES AVEC INITIALE "OA") -->
+    <div id="envelope-screen" onclick="ouvrirInvitation()">
+        <div class="envelope-container">
+            <div class="lace-decor"></div>
+            <div class="brooch">
+                <div class="pearls-ring"></div>
+                <div class="monogram">OA</div>
+            </div>
             <div class="click-hint">Cliquez pour ouvrir</div>
         </div>
     </div>
 
-    <!-- Contenu de l'invitation de mariage -->
-    <div class="main-content" id="mainContent">
-        
-        <section class="hero">
-            <div class="subtitle">Chers Invités, Nous Sommes Heureux de Vous Inviter</div>
+    <!-- CONTENU PRINCIPAL DE L'INVITATION -->
+    <div id="main-content">
+        <div class="invitation-card">
+            <div class="header-decor">✧</div>
+            <div class="tradition-text">En toute joie et avec la bénédiction de Dieu</div>
+            
             <h1 class="names">
                 Oussama
                 <span class="ampersand">&</span>
                 Amna
             </h1>
-            <div class="wedding-date-hero">Samedi 08 Août 2026</div>
-        </section>
-
-        <section class="countdown-container">
-            <div class="countdown-title">Le grand jour approche</div>
-            <div class="countdown">
-                <div class="countdown-item">
-                    <span class="countdown-value" id="days">00</span>
-                    <span class="countdown-label">Jours</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-value" id="hours">00</span>
-                    <span class="countdown-label">Heures</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-value" id="minutes">00</span>
-                    <span class="countdown-label">Min</span>
-                </div>
-            </div>
-        </section>
-
-        <section class="welcome-msg">
-            <h2 class="welcome-title">Bienvenue</h2>
-            <p>
-                En toute joie et avec la bénédiction de Dieu, nous vous convions à célébrer l'union de nos vies. Votre présence et vos sourires à nos côtés illumineront cette merveilleuse journée que nous attendons tant.
+            
+            <p class="request-honor">
+                Ont l'immense honneur et le plaisir de vous faire part de leur mariage<br>
+                et vous prient d'assister au partage de leur bonheur.
             </p>
-        </section>
-
-        <section class="timeline-section">
-            <h2 class="section-title">Programme de la journée</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-time">18:00</div>
-                    <div class="timeline-title">Accueil des invités</div>
-                    <div class="timeline-desc">Bienvenue et installation de nos précieux proches.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">19:00</div>
-                    <div class="timeline-title">Cérémonie & Signature</div>
-                    <div class="timeline-desc">Le moment fort de notre engagement devant vous tous.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">20:30</div>
-                    <div class="timeline-title">Dîner de Gala</div>
-                    <div class="timeline-desc">Partage d'un repas raffiné accompagné de douces festivités.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">23:00</div>
-                    <div class="timeline-title">Pièce Montée & Danse</div>
-                    <div class="timeline-desc">Ouverture du bal et célébration jusqu'au bout de la nuit !</div>
+            
+            <div class="details-section">
+                <div class="date">Samedi 08 Août 2026</div>
+                <div class="time">À partir de 18h00</div>
+                
+                <div class="venue">Lieu de la réception</div>
+                <div class="address">
+                    [Nom de la Salle de Réception]<br>
+                    [Adresse Complète]<br>
+                    [Ville, Code Postal]
                 </div>
             </div>
-        </section>
 
-        <section class="venue-section">
-            <h2 class="section-title">Lieu de Réception</h2>
-            <div class="venue-name">[Nom de la Salle de Mariage]</div>
-            <div class="venue-address">
-                [Adresse de la Salle]<br>
-                [Code Postal, Ville]<br>
-                [Pays]
+            <!-- COMPTE À REBOURS -->
+            <div class="countdown-box">
+                <div class="countdown-title">Le grand jour approche</div>
+                <div class="timer">
+                    <div class="time-segment">
+                        <span class="time-number" id="days">00</span>
+                        <span class="time-label">Jours</span>
+                    </div>
+                    <div class="time-segment">
+                        <span class="time-number" id="hours">00</span>
+                        <span class="time-label">Heures</span>
+                    </div>
+                    <div class="time-segment">
+                        <span class="time-number" id="minutes">00</span>
+                        <span class="time-label">Min</span>
+                    </div>
+                </div>
             </div>
-        </section>
-
-        <footer class="footer">
-            Oussama & Amna — 08.08.2026 — Votre présence sera notre plus beau cadeau.
-        </footer>
-
+            
+            <p class="footer-text">Votre présence nous honorera grandement.</p>
+        </div>
     </div>
 
     <script>
-        // Fonction d'ouverture de l'enveloppe
-        function openEnvelope() {
-            const container = document.getElementById('envelopeContainer');
-            const content = document.getElementById('mainContent');
-            
-            container.style.opacity = '0';
-            container.style.transform = 'scale(0.95)';
-            
-            setTimeout(() => {
-                container.style.display = 'none';
-                content.classList.add('active-content');
-                window.scrollTo(0, 0);
-            }, 1000);
+        // Fonction pour ouvrir l'enveloppe au clic
+        function ouvrirInvitation() {
+            document.getElementById('envelope-screen').classList.add('open-envelope');
+            document.getElementById('main-content').classList.add('show-content');
         }
 
-        // Script du compte à rebours
-        const targetDate = new Date('August 8, 2026 18:00:00').getTime();
+        // Script du Compte à Rebours (Mariage fixé au 8 Août 2026)
+        const targetDate = new Date("August 8, 2026 18:00:00").getTime();
 
         function updateCountdown() {
             const now = new Date().getTime();
             const difference = targetDate - now;
 
-            if (difference < 0) {
-                document.getElementById('days').innerText = "00";
-                document.getElementById('hours').innerText = "00";
-                document.getElementById('minutes').innerText = "00";
-                return;
+            if (difference > 0) {
+                const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+
+                document.getElementById("days").innerText = d < 10 ? "0" + d : d;
+                document.getElementById("hours").innerText = h < 10 ? "0" + h : h;
+                document.getElementById("minutes").innerText = m < 10 ? "0" + m : m;
+            } else {
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
             }
-
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-
-            document.getElementById('days').innerText = days < 10 ? '0' + days : days;
-            document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
-            document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
         }
 
-        setInterval(updateCountdown, 60000); // Mise à jour toutes les minutes
-        updateCountdown(); // Appel initial au chargement
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
     </script>
-
 </body>
 </html>
